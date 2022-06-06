@@ -8,7 +8,7 @@ Globals:
   Function:
     Tracing: Active
     CodeUri: target/springboot-lambda-function-1.0.0-SNAPSHOT-aws.jar
-    Handler: org.springframework.cloud.function.adapter.aws.SpringBootStreamHandler
+    Handler: org.springframework.cloud.function.adapter.aws.FunctionInvoker
     Runtime: java11
     Timeout: 30
     MemorySize: 1024
@@ -90,6 +90,28 @@ Resources:
             RestApiId: !Ref MyApi
             Path: /products/{id}
             Method: delete
+
+  KinesisRDSFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      Environment:
+        Variables:
+          FUNCTION_NAME: kinesisRDSFunction
+      MemorySize: 1512
+      Policies: AWSLambdaBasicExecutionRole
+      Timeout: 60
+      Events:
+        Stream:
+          Type: Kinesis
+          Properties:
+            Stream: !GetAtt stream.Arn
+            BatchSize: 100
+            StartingPosition: LATEST
+
+  stream:
+      Type: AWS::Kinesis::Stream
+      Properties:
+        ShardCount: 1
 
   ProductsTable:
     Type: AWS::DynamoDB::Table

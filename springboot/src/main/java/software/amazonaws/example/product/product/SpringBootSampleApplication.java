@@ -4,6 +4,7 @@
 package software.amazonaws.example.product.product;
 
 import com.amazonaws.services.lambda.runtime.events.APIGatewayProxyRequestEvent;
+import com.amazonaws.services.lambda.runtime.events.KinesisEvent;
 import com.amazonaws.xray.entities.TraceHeader;
 import com.amazonaws.xray.entities.TraceID;
 import com.amazonaws.xray.interceptors.TracingInterceptor;
@@ -15,10 +16,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.nativex.hint.TypeHint;
-import software.amazonaws.example.product.product.handler.CreateProductFunction;
-import software.amazonaws.example.product.product.handler.DeleteProductFunction;
-import software.amazonaws.example.product.product.handler.GetAllProductsFunction;
-import software.amazonaws.example.product.product.handler.GetProductByIdFunction;
+import software.amazonaws.example.product.product.handler.*;
 
 import java.util.HashSet;
 
@@ -26,6 +24,7 @@ import java.util.HashSet;
 @TypeHint(types = {
   DateTime.class,
   APIGatewayProxyRequestEvent.class,
+  KinesisEvent.class,
   TracingInterceptor.class,
   HashSet.class,
   TraceHeader.class,
@@ -62,6 +61,11 @@ public class SpringBootSampleApplication {
     return new DeleteProductFunction();
   }
 
+ /* @Bean
+  public KinesisRDSFunction kinesisRDSFunction() {
+    return new KinesisRDSFunction();
+  }
+*/
   @Bean
   @ConditionalOnMissingBean
   public ObjectMapper defaultObjectMapper() {
