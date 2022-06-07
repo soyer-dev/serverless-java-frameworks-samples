@@ -12,84 +12,8 @@ Globals:
     Runtime: java11
     Timeout: 30
     MemorySize: 1024
-    Environment:
-      Variables:
-        PRODUCT_TABLE_NAME: !Ref ProductsTable
 
 Resources:
-  MyApi:
-    Type: AWS::Serverless::Api
-    Properties:
-      StageName: prod
-      Name: My Lambda springboot Sample API
-
-  GetProductByIdFunction:
-    Type: AWS::Serverless::Function
-    Properties:
-      Environment:
-        Variables:
-          FUNCTION_NAME: getProductById
-      Policies:
-        - DynamoDBReadPolicy:
-            TableName: !Ref ProductsTable
-      Events:
-        GetRequestById:
-          Type: Api
-          Properties:
-            RestApiId: !Ref MyApi
-            Path: /products/{id}
-            Method: get
-
-  GetProductsFunction:
-    Type: AWS::Serverless::Function
-    Properties:
-      Environment:
-        Variables:
-          FUNCTION_NAME: getAllProducts
-      Policies:
-        - DynamoDBReadPolicy:
-            TableName: !Ref ProductsTable
-      Events:
-        GetRequest:
-          Type: Api
-          Properties:
-            RestApiId: !Ref MyApi
-            Path: /products
-            Method: get
-
-  PutProductFunction:
-    Type: AWS::Serverless::Function
-    Properties:
-      Environment:
-        Variables:
-          FUNCTION_NAME: createProduct
-      Policies:
-        - DynamoDBCrudPolicy:
-            TableName: !Ref ProductsTable
-      Events:
-        PutRequest:
-          Type: Api
-          Properties:
-            RestApiId: !Ref MyApi
-            Path: /products/{id}
-            Method: put
-
-  DeleteProductFunction:
-    Type: AWS::Serverless::Function
-    Properties:
-      Environment:
-        Variables:
-          FUNCTION_NAME: deleteProduct
-      Policies:
-        - DynamoDBCrudPolicy:
-            TableName: !Ref ProductsTable
-      Events:
-        PutRequest:
-          Type: Api
-          Properties:
-            RestApiId: !Ref MyApi
-            Path: /products/{id}
-            Method: delete
 
   KinesisRDSFunction:
     Type: AWS::Serverless::Function
@@ -113,18 +37,3 @@ Resources:
       Properties:
         ShardCount: 1
 
-  ProductsTable:
-    Type: AWS::DynamoDB::Table
-    Properties:
-      AttributeDefinitions:
-        - AttributeName: 'PK'
-          AttributeType: 'S'
-      KeySchema:
-        - AttributeName: 'PK'
-          KeyType: 'HASH'
-      BillingMode: PAY_PER_REQUEST
-
-Outputs:
-  ApiEndpoint:
-    Description: "API Gateway endpoint URL for Prod stage for Springboot sample function"
-    Value: !Sub "https://${MyApi}.execute-api.${AWS::Region}.amazonaws.com/prod/products"

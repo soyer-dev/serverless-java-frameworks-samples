@@ -38,34 +38,10 @@ import java.util.HashSet;
 public class SpringBootSampleApplication {
 
   public static void main(String[] args) {
+    System.out.println("Inside main method");
     SpringApplication.run(SpringBootSampleApplication.class, args);
   }
 
-  @Bean
-  public GetAllProductsFunction getAllProducts() {
-    return new GetAllProductsFunction();
-  }
-
-  @Bean
-  public GetProductByIdFunction getProductById() {
-    return new GetProductByIdFunction();
-  }
-
-  @Bean
-  public CreateProductFunction createProduct() {
-    return new CreateProductFunction();
-  }
-
-  @Bean
-  public DeleteProductFunction deleteProduct() {
-    return new DeleteProductFunction();
-  }
-
- /* @Bean
-  public KinesisRDSFunction kinesisRDSFunction() {
-    return new KinesisRDSFunction();
-  }
-*/
   @Bean
   @ConditionalOnMissingBean
   public ObjectMapper defaultObjectMapper() {
