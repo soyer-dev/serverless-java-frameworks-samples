@@ -15,13 +15,13 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.context.annotation.Bean;
-import org.springframework.nativex.hint.TypeHint;
+//import org.springframework.nativex.hint.TypeHint;
 import software.amazonaws.example.product.product.handler.*;
 
 import java.util.HashSet;
 
 @SpringBootApplication
-@TypeHint(types = {
+/*@TypeHint(types = {
   DateTime.class,
   APIGatewayProxyRequestEvent.class,
   KinesisEvent.class,
@@ -34,7 +34,7 @@ import java.util.HashSet;
     "com.amazonaws.services.lambda.runtime.events.APIGatewayProxyRequestEvent$ProxyRequestContext",
     "com.amazonaws.services.lambda.runtime.events.APIGatewayProxyRequestEvent$RequestIdentity",
     "com.amazonaws.xray.entities.TraceHeader$SampleDecision"
-  })
+  })*/
 public class SpringBootSampleApplication {
 
   public static void main(String[] args) {
